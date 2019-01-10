@@ -10,11 +10,13 @@ This is a library of topology patterns with setup examples and performance consi
 
 ### Basic structure for minimum resilience
 
-App is an application that access CockroachDB.
-HA-Proxy is a software based load balancer.
-1, 2, and 3 represents a CockroachDB node.
+In the diagrams below:
 
-Normal operating mode
+- `App` is an application that access CockroachDB
+- `HA-Proxy` is a software based load balancer
+- 1, 2, and 3 each represents a CockroachDB node
+
+Normal operating mode:
 
 ~~~
       App
@@ -26,7 +28,7 @@ Normal operating mode
  \___________/
 ~~~
 
-Node 1 is down.  Database and app are fully operational.
+If Node 1 goes down, the database and app are still fully operational.
 
 ~~~
       App
@@ -38,7 +40,7 @@ x------2------3
  \___________/
 ~~~
 
-Node 2 is down.  Database and app are fully operational.
+If node 2 is down, the database and app are still fully operational.
 
 ~~~
       App
@@ -50,7 +52,7 @@ Node 2 is down.  Database and app are fully operational.
  \___________/
 ~~~
 
-Node 3 is down.  Database and app are fully operational.
+If node 3 is down, the database and app are still fully operational.
 
 ~~~
       App
@@ -64,9 +66,9 @@ Node 3 is down.  Database and app are fully operational.
 
 ### More resilient structure
 
-3 or more nodes are recommended to provide HA, share the load and spread the capacity. Dynamically scaling out the nodes from 3 to 4, 4 to 5, or any other intervals is supported. There are no constraints on the server increments. Local deployment is a single data center deployment. The network latency among the nodes is expected to be the same and about 1ms range.
+Three or more nodes are recommended to provide high availability, share the load and spread the capacity. Dynamically scaling out the nodes from 3 to 4, 4 to 5, or any other intervals is supported. There are no constraints on the server increments. Local deployment is a single data center deployment. The network latency among the nodes is expected to be the same and about 1ms range.
 
-The diagram below depicts a node as a letter (A, B, C, D, E ...)
+The diagram below depicts each node as a letter (A, B, C, D, E):
 
 ~~~
 A------C         A-----C           A-----C
@@ -80,7 +82,7 @@ A------C         A-----C           A-----C
 
 ### Basic structure for minimum resilience
 
-Each region defines an availability zone. 3 or more regions are recommended. Similiar to the Local Topology, more regions can be added dynamically. It is recommended to have homogenous configuration among the regions for simplified operations. For sophisticated workloads, each region could have different node count and node specification. This heterogeneous configuration could better handle regional specific concurrency and load characteristics. The network latency among the regions is expected to be linear to the distance among the nodes. T
+Each region defines an availability zone. Three or more regions are recommended. Similar to the [local](#single-local-datacenter) topology, more regions can be added dynamically. It is recommended to have homogenous configuration among the regions for simplified operations. For sophisticated workloads, each region could have different node count and node specification. This heterogeneous configuration could better handle regional specific concurrency and load characteristics. The network latency among the regions is expected to be linear to the distance among the nodes.
 
 The diagram below depicts asymmetrical setup where the Central is closer to the West than the East. This configuration will provide better write latency to the write workloads in the West and Central.
 
@@ -100,13 +102,13 @@ A---C         A---C
           B
 ~~~
 
-### More resilient
+### More resilient / different structure
 
 _Add description_
 
-#### Locality-aware load balancing
+### Locality-aware load balancing
 
-When locality is enabled, haproxy should be setup to load balance on the database nodes within the same locality as the app servers first. If all of the nodes this preferred locality is down, then try databases in other localities.
+When locality is enabled, `haproxy` should be setup to load balance on the database nodes within the same locality as the app servers first. If all of the nodes this preferred locality is down, then try databases in other localities.
 
 For a regional topology depicted in the below diagram:
 
@@ -135,7 +137,7 @@ West    Central    East
       -------------
 ~~~
 
-#### High-Performance
+### High-Performance
 
 Some applications have high-performance requirements. NJ and NY in the below diagram depict two separate data centers that are connected by a high bandwidth low latency network. In this topology, NJ and NY have the performance characteristics of the local topology, but the benefit of Zero RPO and near Zero RTO disaster recovery SLA. CA and NV have been set up with a network capability. The central region serves as the quorum.
 
@@ -179,7 +181,7 @@ The global topology connects the multiple regional topologies together to form a
                     Central
 ~~~
 
-### More resilient structure
+### More resilient / different structure
 
 _Add description_
 
@@ -191,7 +193,7 @@ Topology                                  | West                         | Centr
 [Dual East](#dual-east)                   | East	Read local, Write 60ms |                        | Read local, Write 5ms
 [Dual East and West](#dual-east-and-west) | Read local, Write 5ms        |	                      | Read local, Write 5ms
 
-### Symmetrical
+#### Symmetrical
 
 During normal operations:
 
@@ -330,4 +332,4 @@ Abbreviated startup flag for each data center.
 
 ## Anti-patterns
 
-Section for bad patterns (i.e., two datacenters, even # of replicas)
+_Do we want to add a section for bad patterns (i.e., two datacenters, even # of replicas)?_
