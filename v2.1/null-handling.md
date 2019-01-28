@@ -210,7 +210,7 @@ the second operand is `NULL`.
 
 `AND`, `OR` and `IS` implement ternary logic, as follows.
 
- |Expression        | Result |
+| Expression       | Result |
 -------------------|---------
  `FALSE AND FALSE` | `FALSE`
  `FALSE AND TRUE`  | `FALSE`
@@ -222,7 +222,7 @@ the second operand is `NULL`.
  `NULL AND TRUE`   | `NULL`  
  `NULL AND NULL`   | `NULL`  
 
-| Expression       | Result |
+| Expression      | Result |
 ------------------|---------
  `FALSE OR FALSE` | `FALSE`
  `FALSE OR TRUE`  | `TRUE`  
@@ -233,7 +233,8 @@ the second operand is `NULL`.
  `NULL OR FALSE`  | `NULL`  
  `NULL OR TRUE`   | `TRUE`  
  `NULL OR NULL`   | `NULL`  
-| Expression       | Result  |
+
+| Expression      | Result  |
 ------------------|---------
  `FALSE IS FALSE` | `TRUE`  
  `FALSE IS TRUE`  | `FALSE`
